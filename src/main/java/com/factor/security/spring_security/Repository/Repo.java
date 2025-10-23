@@ -13,7 +13,7 @@ public interface Repo extends JpaRepository<Web, Long> {
 
   boolean existsByMovieNameIgnoreCase(String movieName);
 
-    Optional<Web> findByMovieName(String movieName);
+    Optional<Web> findByMovieNameIgnoreCase(String movieName);
 
     Optional<Web> findByreleaseYear(int releaseYear);
 }

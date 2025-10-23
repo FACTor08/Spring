@@ -18,33 +18,30 @@ public class WebController {
     @Autowired
     WebService webService;
 @PostMapping(value = "/upload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)  //Admin-only
-        public void addMovies(@RequestPart("movie") Web movie, @RequestPart("banner") MultipartFile banner) throws IOException {
+        public ResponseEntity<String> addMovies(@RequestPart("movie") Web movie, @RequestPart("banner") MultipartFile banner) throws IOException {
          webService.addMovies(movie, banner);
+         return ResponseEntity.ok("movie uploaded Successfully");     //Uploads movies to the DB
 }
 @GetMapping("/get")
     public List<Web> getMovies(){
-    return webService.getMovies();
+    return webService.getMovies();  //Returns all movies
 }
 
 @GetMapping("/get/{movie}")
     public ResponseEntity<Web> getByMovieName(@PathVariable String movie){
-    return webService.getMovies().stream()
-             .filter(s -> s.getMovieName().equalsIgnoreCase(movie))
-             .findFirst()
-             .map(ResponseEntity::ok)
-             .orElse(ResponseEntity.notFound().build());
-
+            return webService.getByMovieName(movie).stream()
+                    .findFirst()
+                    .map( ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
 }
 
 @GetMapping("get/{movie}/banner")
-public ResponseEntity<byte []> getMovieBanner(@PathVariable String movie){
-
+public ResponseEntity<byte []> getMovieBanner(@PathVariable String movie){          //Obtain the movie banner
     return webService.getByMovieName(movie).stream()
-            .filter(s -> s.getMovieName().equalsIgnoreCase(movie))
             .findFirst()
-            .map(m -> ResponseEntity.ok()
-                    .contentType(MediaType.valueOf(m.getImageType()))
-                    .body(m.getImage()))
+            .map(mapper -> ResponseEntity.ok()
+                    .contentType(MediaType.valueOf(mapper.getImageType()))
+                    .body(mapper.getImage()))
             .orElse(ResponseEntity.noContent().build());
 }
 
@@ -56,6 +53,6 @@ public ResponseEntity<byte []> getMovieBanner(@PathVariable String movie){
         return ResponseEntity.ok().body("The item" + remove + "has successfully been deleted");
     }
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("Item not found");
+                .body("Movie not found");
 }
     }

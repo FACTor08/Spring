@@ -26,7 +26,7 @@ public class WebService {
     }
 
     public Optional<Web> getByMovieName(String name) {
-        return repo.findByMovieName(name);
+        return repo.findByMovieNameIgnoreCase(name);
     }
 
     public Optional<Web> getByreleaseYear(int year) {
