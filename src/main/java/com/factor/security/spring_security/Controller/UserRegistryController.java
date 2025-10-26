@@ -14,9 +14,6 @@ public class UserRegistryController {
     @Autowired
     SecurityServices securityServices;
 
-        public UserRegistryController(SecurityServices securityServices) {
-            this.securityServices = securityServices;
-        }
 
         @PostMapping("/register")
         public String registerUser(@RequestBody Security security) throws IOException {
