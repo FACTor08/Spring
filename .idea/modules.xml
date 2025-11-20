@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/school.iml" filepath="$PROJECT_DIR$/.idea/school.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/movies.iml" filepath="$PROJECT_DIR$/.idea/movies.iml" />
+>>>>>>> 85b1948 (Movie web API)
     </modules>
   </component>
 </project>
