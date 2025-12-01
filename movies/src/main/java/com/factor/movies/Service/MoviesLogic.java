@@ -41,16 +41,4 @@ public class MoviesLogic {
         return repo.findByTitle(title);
     }
 
-    public Boolean patchData(String title){
-            Optional<Movies> optionalData = repo.findByTitle(title);
-            if(optionalData.isPresent()){
-        Movies data = optionalData.get();
-                data.setTitle(title);
-                repo.save(data);
-                return true;
-            }
-            else {
-                return false;
-            }
-    }
 }

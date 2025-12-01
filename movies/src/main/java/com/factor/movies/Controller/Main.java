@@ -46,14 +46,4 @@ public class Main {
 
     }
 
-    @PatchMapping("/patch/{title}")
-    public ResponseEntity<String> patchTitle(@PathVariable String title){
-         boolean patched = logic.patchData(title);
-         if(patched) {
-             return ResponseEntity.ok(title);
-         }
-         else{
-             return ResponseEntity.notFound().build();
-         }
-    }
 }
