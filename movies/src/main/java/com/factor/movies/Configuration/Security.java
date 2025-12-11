@@ -46,6 +46,11 @@ public class Security {
                         .requestMatchers("/factormovies/register").permitAll()
                         .requestMatchers("/factormovies/register-Administrators").permitAll()
                         .requestMatchers("/factormovies/upload").hasRole("ADMIN")
+                        .requestMatchers("/factormovies/patch/{detail}").hasRole("ADMIN")
+                        .requestMatchers("/factormovies/delete/{movies}").hasRole("ADMIN")
+                        .requestMatchers("/factormovies/user-login").hasRole("USER")
+                        .requestMatchers("/factormovies/admin-login}").hasRole("ADMIN")
+                        .requestMatchers("/factormovies/delete/{username}").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .build();

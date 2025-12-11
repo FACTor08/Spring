@@ -6,12 +6,12 @@ import com.factor.movies.Service.MoviesLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/factormovies")
@@ -24,9 +24,6 @@ public class Main {
     public ResponseEntity<String> uploadMovies(@ModelAttribute MoviesDTO data, @RequestPart("movie") MultipartFile movie,
                                                @RequestPart("subtitle") MultipartFile subtitle,
                                                   @RequestPart("banner") MultipartFile banner) throws IOException {
-        System.out.println(
-                SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-        );
         logic.uploadMovies(data, movie, subtitle, banner);
         return ResponseEntity.ok("Movie: " + data.getTitle() + " has successfully been uploaded");
 
@@ -46,4 +43,17 @@ public class Main {
 
     }
 
+    @PatchMapping("/patch/{detail}")
+    public ResponseEntity<Movies> patchData(@PathVariable String detail,
+                                            @RequestPart(value = "metadata", required = false) MoviesDTO patch,
+                                            @RequestPart(value = "file", required = false) MultipartFile file){
+       Optional<Movies> updatedData = logic.updateData(detail, patch, file);
+       return updatedData.map(ResponseEntity::ok)
+               .orElse(ResponseEntity.notFound().build());
+    }
+@DeleteMapping("/delete/{movies}")
+public ResponseEntity<String> deleteMovies(@PathVariable String title){
+        logic.deleteData(title);
+       return ResponseEntity.ok("The movie '" + title + "' has been deleted successfully");
+}
 }

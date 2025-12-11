@@ -4,6 +4,7 @@ import com.factor.movies.Configuration.AdminDTransfer;
 import com.factor.movies.Model.Admin;
 import com.factor.movies.Model.AdminDTO;
 import com.factor.movies.Repository.Admindb;
+import com.factor.movies.Repository.Userdb;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 
 @Service
@@ -21,17 +23,20 @@ public class AdminLogic {
     @Autowired
     private Admindb repo;
     @Autowired
+    private Userdb userRepo;
+    @Autowired
     private AdminDTransfer trnsf;
 
-    public String registerAdmin(AdminDTO data){
+    public String registerAdmin(AdminDTO data) {
 
-    if(repo.findByEmail(data.getEmail()).isPresent()){
-        return "Email already exists";
-    }
+        if (repo.findByEmailIgnoreCase(data.getEmail()).isPresent()) {
+            return "Email already exists";
+        }
 
-        Admin store = trnsf.transferobj(data);
+            Admin store = trnsf.transferobj(data);
             repo.save(store);
-        return "New Admin Successfully Registered";
+            return "New Admin Successfully Registered";
+
     }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -43,5 +48,21 @@ public class AdminLogic {
                 user.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
         );
+    }
+
+    public Optional<Admin> updateData(String password, AdminDTO key) {
+     return repo.findByUsername(password).map(data -> {
+            if (key.getUsername() != null) {
+                data.setUsername(key.getUsername());
+            }
+            if (key.getPassword() != null) {
+                data.setPassword(key.getPassword());
+            }
+            return repo.save(data);
+        });
+
+    }
+    public void deleteAccount(String user){
+        userRepo.deleteByUsernameIgnoreCase(user);
     }
 }

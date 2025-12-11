@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,7 +25,7 @@ public class UserLogic {
 
     public String registerUsers(UsersDTO data){
 
-        if(repo.findByEmail(data.getEmail()).isPresent()){
+        if(repo.findByEmailIgnoreCase(data.getEmail()).isPresent()){
             return "Email already exists!!!";
         }
 
@@ -43,5 +44,18 @@ public class UserLogic {
                 Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
         );
     }
-
+    public Optional<Users> updateData(String password, UsersDTO key) {
+        return repo.findByUsername(password).map(data -> {
+            if (key.getUsername() != null) {
+                data.setUsername(key.getUsername());
+            }
+            if (key.getPassword() != null) {
+                data.setPassword(key.getPassword());
+            }
+            return repo.save(data);
+        });
+    }
+    public void deleteAccount(String user){
+        repo.deleteByUsernameIgnoreCase(user);
+    }
 }

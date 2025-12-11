@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface Moviesdb extends JpaRepository<Movies, Long> {
 
-    Optional<Movies> findByTitle(String title);
-
+    Optional<Movies> findByTitleIgnoreCase(String title);
+    void deleteByTitleIgnoreCase(String data);
 }

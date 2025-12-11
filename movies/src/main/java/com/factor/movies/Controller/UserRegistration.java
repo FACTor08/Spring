@@ -4,10 +4,7 @@ import com.factor.movies.Model.UsersDTO;
 import com.factor.movies.Service.UserLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/factormovies")
@@ -21,9 +18,14 @@ public class UserRegistration{
         return ResponseEntity.ok(msg);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<String> loadUser(@RequestBody String username){
-//        logic.loadUserByUsername(username);
-//        return ResponseEntity.ok("login successful");
-//    }
+    @PostMapping("/user-login")
+    public ResponseEntity<String> loadUser(@RequestBody String username){
+        logic.loadUserByUsername(username);
+        return ResponseEntity.ok("login successful");
+    }
+    @DeleteMapping("/account/delete/{user}")
+    public ResponseEntity<String> deleteAccount(@PathVariable String user){
+        logic.deleteAccount(user);
+        return ResponseEntity.ok("Account deleted successfully");
+    }
 }

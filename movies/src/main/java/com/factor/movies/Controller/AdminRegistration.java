@@ -13,17 +13,22 @@ import java.io.IOException;
 @RequestMapping("/factormovies")
 public class AdminRegistration {
 
-    @Autowired
-    private AdminLogic logic;
+@Autowired
+private AdminLogic logic;
 
-    @PostMapping("/register-Administrators")
-    public ResponseEntity<String> registerAdmin(@RequestBody AdminDTO details){
+@PostMapping("/register-Administrators")
+public ResponseEntity<String> registerAdmin(@RequestBody AdminDTO details){
        String msg = logic.registerAdmin(details);
          return ResponseEntity.ok(msg);
     }
-//    @PostMapping("/login")
-//    public ResponseEntity<String> loadUser(@RequestBody String username){
-//        logic.loadUserByUsername(username);
-//        return ResponseEntity.ok("login successful");
-//    }
+@PostMapping("/admin-login")
+public ResponseEntity<String> loadUser(@RequestBody String username){
+    logic.loadUserByUsername(username);
+    return ResponseEntity.ok("login successful");
+    }
+    @DeleteMapping("account/{user}/delete")
+    public ResponseEntity<String> deleteAccount(@PathVariable String user){
+        logic.deleteAccount(user);
+        return ResponseEntity.ok("Account deleted successfully");
+    }
 }

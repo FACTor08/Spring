@@ -29,6 +29,4 @@ public class Movies {
 
     @Temporal(TemporalType.DATE)
     private String year;
-
-
 }

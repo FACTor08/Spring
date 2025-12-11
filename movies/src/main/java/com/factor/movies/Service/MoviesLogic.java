@@ -20,7 +20,7 @@ public class MoviesLogic {
     @Autowired
     private Moviesdb repo;
     @Autowired
-    private  MovieDTransfer trnsf;
+    private MovieDTransfer trnsf;
 
     public Movies uploadMovies(MoviesDTO data, MultipartFile movie, MultipartFile banner, MultipartFile subtitle) throws IOException {
 
@@ -29,7 +29,7 @@ public class MoviesLogic {
         byte[] visuals = movie.getBytes();
         String imageType = banner.getContentType();
 
-        Movies store = trnsf.transferObj(image,visuals,sub,data,imageType);
+        Movies store = trnsf.transferObj(image, visuals, sub, data, imageType);
         return repo.save(store);
     }
 
@@ -38,7 +38,24 @@ public class MoviesLogic {
     }
 
     public Optional<Movies> getByTitle(String title) {
-        return repo.findByTitle(title);
+        return repo.findByTitleIgnoreCase(title);
     }
 
+    public Optional<Movies> updateData(String title, MoviesDTO details, MultipartFile file) {
+        return repo.findByTitleIgnoreCase(title).map(data ->{
+            if(details.getTitle() != null) data.setTitle(details.getTitle());
+            if(details.getYear() != null) data.setYear(details.getYear());
+            if(file != null && !file.isEmpty()) {
+                try {
+                    data.setMovie(file.getBytes());
+                } catch (IOException e) {
+                    throw new RuntimeException("file upload failed", e);
+                }
+            }
+            return repo.save(data);});
+    }
+    public void deleteData(String title){
+       repo.deleteByTitleIgnoreCase(title);
+
+    }
 }
