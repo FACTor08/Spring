@@ -50,8 +50,8 @@ public class AdminLogic {
         );
     }
 
-    public Optional<Admin> updateData(String password, AdminDTO key) {
-     return repo.findByUsername(password).map(data -> {
+    public Optional<Admin> updateData(String username, AdminDTO key) {
+     return repo.findByUsername(username).map(data -> {
             if (key.getUsername() != null) {
                 data.setUsername(key.getUsername());
             }
