@@ -22,15 +22,21 @@ public class MoviesLogic {
     @Autowired
     private MovieDTransfer trnsf;
 
-    public Movies uploadMovies(MoviesDTO data, MultipartFile movie, MultipartFile banner, MultipartFile subtitle) throws IOException {
+    public String uploadMovies(MoviesDTO data, MultipartFile movie, MultipartFile banner, MultipartFile subtitle) throws IOException {
 
-        byte[] image = banner.getBytes();
-        byte[] sub = subtitle.getBytes();
-        byte[] visuals = movie.getBytes();
-        String imageType = banner.getContentType();
+   if (repo.findByTitleIgnoreCase(data.getTitle()).isPresent()) {
+            return "Movie already exists";
+        } else {
 
-        Movies store = trnsf.transferObj(image, visuals, sub, data, imageType);
-        return repo.save(store);
+            byte[] image = banner.getBytes();
+            byte[] sub = subtitle.getBytes();
+            byte[] visuals = movie.getBytes();
+            String imageType = banner.getContentType();
+
+            Movies store = trnsf.transferObj(image, visuals, sub, data, imageType);
+            repo.save(store);
+            return "Movie: " + data.getTitle() + " has successfully been uploaded";
+        }
     }
 
     public List<Movies> getAllMovies() {
