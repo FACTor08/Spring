@@ -24,8 +24,8 @@ public class Main {
     public ResponseEntity<String> uploadMovies(@ModelAttribute MoviesDTO data, @RequestPart("movie") MultipartFile movie,
                                                @RequestPart("subtitle") MultipartFile subtitle,
                                                   @RequestPart("banner") MultipartFile banner) throws IOException {
-        logic.uploadMovies(data, movie, subtitle, banner);
-        return ResponseEntity.ok("Movie: " + data.getTitle() + " has successfully been uploaded");
+     String msg = logic.uploadMovies(data, movie, subtitle, banner);
+        return ResponseEntity.ok(msg);
 
     }
 
