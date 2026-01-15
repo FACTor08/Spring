@@ -1,6 +1,6 @@
 package com.factor.school.Service;
 
-import com.factor.school.Helper.DataTransfer;
+import com.factor.school.Configuration.DataTransfer;
 import com.factor.school.Model.DetailsDTO;
 import com.factor.school.Model.Student_details;
 import com.factor.school.Repository.MainDB;

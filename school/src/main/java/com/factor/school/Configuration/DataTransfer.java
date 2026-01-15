@@ -1,8 +1,7 @@
-package com.factor.school.Helper;
+package com.factor.school.Configuration;
 
 import com.factor.school.Model.DetailsDTO;
 import com.factor.school.Model.Student_details;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
