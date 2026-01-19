@@ -17,7 +17,7 @@ public class DataTransfer {
         return "SCH" + LocalDate.now().getYear() + (1000 + random.nextInt(9000));
     }
 
-    public Student_details convert(DetailsDTO detailsDTO, byte[] photo, String imageType)throws IOException {
+    public Student_details transfer(DetailsDTO detailsDTO, byte[] photo, String imageType)throws IOException {
         Student_details student = new Student_details();
 
         student.setMatricNo(matricGenerator());
@@ -25,7 +25,7 @@ public class DataTransfer {
         student.setSurname(detailsDTO.getSurname());
         student.setDob(detailsDTO.getDob());
         student.setEmail(detailsDTO.getEmail());
-        student.setPhoneNumber(detailsDTO.getPhoneNumber());
+        student.setPhone(detailsDTO.getPhone());
         student.setImage(photo);
         student.setImageType(imageType);
       return student;

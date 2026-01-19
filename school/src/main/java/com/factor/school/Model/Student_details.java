@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import java.util.Date;
@@ -30,8 +31,7 @@ public class Student_details {
     private String email;
 
     @Size(min = 11, max = 11, message = "Invalid phone number")
-    @Column(name = "Phone")
-    private String phoneNumber;
+    private String phone;
 
     @Lob
     private byte[] image;

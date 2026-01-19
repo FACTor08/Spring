@@ -24,23 +24,18 @@ public class Main {
     @PostMapping(value = "/enroll", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
    public ResponseEntity<String> enrollStudent(@ModelAttribute DetailsDTO detail,
                                                   @RequestPart("photo") MultipartFile photo) throws IOException {
-       Student_details data = logic.enrollStudents(detail, photo);
+       String data = logic.enrollStudents(detail, photo);
 
-      return ResponseEntity.ok()
-               .body(detail.getFirstname() + " " + detail.getSurname() + "  has been Successfully " +
-                       "enrolled with MatricNo: " + data.getMatricNo());
-
+      return ResponseEntity.ok(data);
     }
 
    @GetMapping("/registered")
-
    public ResponseEntity<List<Student_details>> allEnrolledStudents(){
        List<Student_details> students = logic.getAllStudents();
        return ResponseEntity.ok(students);
    }
 
    @GetMapping("/search/{surname}")
-
    public ResponseEntity<Student_details> findBySurname(@PathVariable String surname){
        return logic.findBySurname(surname).stream()
               .findFirst()
@@ -49,8 +44,7 @@ public class Main {
 
    }
 
-
-    @GetMapping("/search/{matric_no}/students")
+    @GetMapping("/search/students/{matric_no}")
     public ResponseEntity<Student_details> findByMatricNo(@PathVariable String matric_no){
         return logic.findByMatricNo(matric_no).stream()
                 .findFirst()
@@ -59,14 +53,14 @@ public class Main {
 
     }
 
-   @DeleteMapping("/erase/{idCode}")
-   public ResponseEntity<String> deleteStudentData(@PathVariable String idCode){
-        boolean erased = logic.eraseStudentData(idCode);
+   @DeleteMapping("/erase/{matric}")
+   public ResponseEntity<String> deleteStudentData(@PathVariable String matric){
+        boolean erased = logic.eraseStudentData(matric);
         if (erased){
-            return ResponseEntity.ok("Data of Student registered with id-code " + idCode + " Successfully deleted");
+            return ResponseEntity.ok("Data of Student " + matric + " has been Successfully deleted");
    }
         else {
-            return ResponseEntity.status(404).body("no Registered Student with id-code " + idCode + " found");
+            return ResponseEntity.status(404).body("no Registered Student with matric " + matric + " was found");
         }
    }
 }

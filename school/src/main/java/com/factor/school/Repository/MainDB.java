@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface MainDB extends JpaRepository<Student_details, String> {
 
-    Optional<Student_details> findByMatricNoIgnoreCase(String matricNo);
+    Optional<Student_details> findByMatricNoIgnoreCase(String matric);
 
     Optional<Student_details> findBySurnameIgnoreCase(String surname);
 

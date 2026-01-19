@@ -22,12 +22,12 @@ public class Details_Logic {
     @Autowired
     private DataTransfer dt;
 
-    public Student_details enrollStudents(DetailsDTO details, MultipartFile photo) throws IOException {
+    public String enrollStudents(DetailsDTO details, MultipartFile photo) throws IOException {
         byte[] image = photo.getBytes();
         String imageType = photo.getContentType();
-        Student_details student = dt.convert(details, image, imageType);
-
-    return repo.save(student);
+        Student_details student = dt.transfer(details, image, imageType);
+        repo.save(student);
+    return "Student has successfully been enrolled with the Matric number " + details.getMatricNo();
     }
 
 
@@ -41,14 +41,14 @@ public class Details_Logic {
     }
 
 
-    public Optional<Student_details> findByMatricNo(String matricNo){
-      return repo.findByMatricNoIgnoreCase(matricNo);
+    public Optional<Student_details> findByMatricNo(String matric){
+      return repo.findByMatricNoIgnoreCase(matric);
     }
 
 
-    public boolean eraseStudentData(String matricNo){
-        if(repo.existsByMatricNoIgnoreCase(matricNo)){
-            repo.deleteByMatricNoIgnoreCase(matricNo);
+    public boolean eraseStudentData(String matric){
+        if(repo.existsByMatricNoIgnoreCase(matric)){
+            repo.deleteByMatricNoIgnoreCase(matric);
             return  true;
         }
         else{
