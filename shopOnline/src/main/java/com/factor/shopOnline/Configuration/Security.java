@@ -1,6 +1,6 @@
 package com.factor.shopOnline.Configuration;
 
-//import com.factor.shopOnline.Service.ClientLogic;
+
 import com.factor.shopOnline.Service.ClientLogic;
 import com.factor.shopOnline.Service.MerchantLogic;
 import org.springframework.context.annotation.Bean;
